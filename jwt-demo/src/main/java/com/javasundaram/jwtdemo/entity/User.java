@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -21,9 +23,11 @@ public class User {
 
     private String lastName;
 
-    @Column(unique = true)
+    private String password;
+
+    ///@Column(unique = true)
     private String userName;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Role> roles;
+    private Collection<Role> roles = new ArrayList<>();
 }

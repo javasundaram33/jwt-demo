@@ -8,10 +8,9 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -20,19 +19,25 @@ public class UserRoleController {
     @Autowired
     private UserRole userRole;
 
+    @GetMapping("/user")
+    public ResponseEntity<List<User>> getUser(){
+        List<User> u = userRole.getAllUser();
+        return ResponseEntity.ok().body(userRole.getAllUser());
+    }
+
     @PostMapping("/user")
     public ResponseEntity<User> saveUser(@RequestBody User user){
         User u = userRole.saveUser(user);
         return new ResponseEntity<User>(HttpStatus.OK);
     }
 
-    @PostMapping("/role")
+    @PostMapping("/user/role")
     public ResponseEntity<Role> saveRole(@RequestBody Role role){
         Role r = userRole.saveRole(role);
         return new ResponseEntity<Role>(HttpStatus.OK);
     }
 
-    @PostMapping("/adduserrole")
+    @PostMapping("/user/adduserrole")
     public ResponseEntity<?> addUserRole(@RequestBody UserRoleMap userRoleMap){
         userRole.addRoleToUser(userRoleMap.getUserName(), userRoleMap.getRoleName());
         return ResponseEntity.ok().build();
